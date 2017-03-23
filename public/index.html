@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Autosuggest</title>
+
+	<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+	<div class="container">
+
+		<form class="form" id="form" onsubmit="return false">
+			<div class="form-group">
+				<label for="city">Город</label>
+				<div>
+					<input type="text" class="autosuggest" id="city" autocomplete="off">
+					<div class="suggest">
+						<ul>
+							<li>Лондон</li>
+							<li>Москва</li>
+							<li>Самара</li>
+							<li>Ростов-на-Дону</li>
+							<li>Александровск-Сахалинский</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="phone">Телефон</label>
+				<div>
+					<input type="text" id="phone" autocomplete="off">
+				</div>
+			</div>
+			<div class="align-right">
+				<button type="reset">Очистить</button>
+				<button type="submit">Сохранить</button>
+			</div>
+		</form>
+
+	</div>
+
+	<script src="js/autosuggest.js"></script>
+
+	<script>
+		
+	</script>
+	
+</body>
+</html>
