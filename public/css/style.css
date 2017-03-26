@@ -12,10 +12,16 @@ button {
 	padding: .6em 1.2em;
 	box-sizing: border-box;
 	font-size: inherit;
-	color: inherit;
+	line-height: inherit;
+	height: auto;
+	color: #000;
 	border-radius: 3px;
 	outline: none;
 	-webkit-user-select: none;
+	overflow: visible;
+}
+button {
+	background: #fff linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.04) 100%);
 }
 button:hover {
 	cursor: pointer;
@@ -24,6 +30,9 @@ button:hover {
 button:active {
 	cursor: pointer;
 	transform: scale(1);
+}
+button > span {
+	position: relative;
 }
 
 .container {
@@ -64,7 +73,6 @@ button:active {
 }
 .form-group > div > input[type=text] {
 	width: 100%;
-	color: #000
 }
 
 
@@ -104,4 +112,33 @@ button:active {
 }
 .suggest ul li:hover {
 	background-color: rgba(66, 98, 168, .1);
+}
+
+
+
+.menu {
+	list-style: none;
+	margin: 20px 0;
+	padding: 0;
+	display: flex;
+	justify-content: space-between;
+	font-size: .81em;
+}
+.menu-item {
+	padding: 4px 14px;
+	text-transform: uppercase;
+	background-color: rgba(0, 0, 0, .1);
+	cursor: pointer;
+	text-align: center;
+	white-space: nowrap;
+}
+.menu-item.active,
+.menu-item:hover {
+	background-color: rgba(83, 153, 195, 1);
+	color: #fff;
+}
+
+.list {
+	padding: 50px;
+	background-color: rgba(0,0,0,.1)
 }
