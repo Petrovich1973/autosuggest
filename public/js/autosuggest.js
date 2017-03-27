@@ -3,6 +3,32 @@ var autosuggest = document.querySelector('.autosuggest'),
 	suggestItem = document.querySelectorAll('.suggest li');
 
 autosuggest.onfocus = handleFocus;
+
+
+
+var urlRequest = 'http://kladr-api.ru/api.php?contentType=city&limit=10&query=мос';
+//var urlRequest = 'http://tanko.ru/index.html';
+
+var XHR = ( "onload" in new XMLHttpRequest() ) ? XMLHttpRequest : XDomainRequest;
+
+var xhr = new XHR();
+
+xhr.open('GET', urlRequest, true);
+
+//xhr.setRequestHeader('Access-Control-Allow-Origin', 'application/json');
+
+xhr.onload = function() {
+  console.log( this.responseText );
+}
+
+xhr.onerror = function() {
+  console.log( 'readyState= ' + this.readyState );
+  console.log( 'status=' + this.status );
+}
+
+xhr.send();
+
+
 // autosuggest.onblur = function() {
 // 	console.log('onblur')
 // 	if(!this.value.length) {
@@ -97,7 +123,7 @@ var autocomplete = (function() {
     	},
     	show: function(extended) {
     		
-    		extended.parent.onclick = console.log( getStart(extended.parent.innerText) )
+    		extended.parent.onclick = console.log( extended, '\n\n', getStart(extended.parent.textContent) )
 
     	}
     }
@@ -108,9 +134,23 @@ var $ = function(id) {
 };
 
 autocomplete.init({
-	parent: $('#list'),
+	parent: $('#task'),
 	width: 500
 })
+
+// $('#form').onsubmit = function(e) {
+// 	console.log(e)
+// 	return false;
+// };
+
+//var form = document.querySelector("#form");
+$("#form").addEventListener("submit", function(e) {
+	e.preventDefault();
+	console.log(this.elements.city.value, this.elements.phone.value);
+	$("#resultCity").innerText = this.elements.city.value;
+	$("#resultPhone").innerText = this.elements.phone.value;
+	return false;
+});
 
 // var s,
 // NewsWidget = {

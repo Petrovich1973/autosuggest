@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 	<meta charset="UTF-8">
 	<title>Autosuggest</title>
@@ -11,40 +11,40 @@
 
 	<div class="container">
 
-		<div id="list" class="list">
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore doloribus quibusdam distinctio, ad asperiores nam atque mollitia laudantium cumque, fugiat nostrum tempora explicabo blanditiis! Qui quas esse voluptatibus nam et?</p>
-			<p><strong>Результат —</strong> <small><em>Город:</em></small> <span id="resultCity">Москва</span>; <small><em>Телефон:</em></small> <span id="resultPhone">+7(919)999-91-90</span></p>
+		<div class="task" id="task">
+			<h1>Autosuggest</h1>
+			<p>Задача: сверстать страницу, которая содержит форму из двух компонентов и кнопок действий.</p>
+			<p>Основное условия задачи: не использовать в работе сторонние библиотеки и фреймворки.</p>
+			<p>Дизайн и недостающие требования — на ваше усмотрение (постарайтесь сделать максимально удобно и понятно для теоретического пользователя этой формы).</p>
+			<div class="res" id="res">
+				<h4 class="res-title">Результат:</h4>
+				<table class="res-table">
+					<tbody>
+						<tr>
+							<td><small><em>Город:</em></small></td>
+							<td><strong id="resultCity">Москва</strong></td>
+						</tr>
+						<tr>
+							<td><small><em>Телефон:</em></small></td>
+							<td><strong id="resultPhone">+7(919)999-91-90</strong></td>
+						</tr>
+					</tbody>
+				</table>  
+			</div>
 		</div>
-
-<!-- 		<ul class="menu">
-			<li class="menu-item">Home</li>
-			<li class="menu-item">About us</li>
-			<li class="menu-item active">Services</li>
-			<li class="menu-item">Partners</li>
-			<li class="menu-item">Customers</li>
-			<li class="menu-item">Projects</li>
-			<li class="menu-item">Carrers</li>
-			<li class="menu-item">Contact</li>
-		</ul> -->
-
-<!-- 		<div class="sidebar">
-			<p><a class="menuButton" href="home">Home</a></p>
-			<p><a class="menuButton" href="about">About</a></p>
-			<p><a class="menuButton" href="contact">Contact Us</a></p>
-			<p><a class="menuButton" href="links">Links</a></p>
-		</div> -->
 
 		<div class="result"></div>
 
-		<form class="form" id="form" onsubmit="return false">
-			<h2 style="margin: 0; text-align: right; text-transform: uppercase;">Создание новой записи</h2>
-			<p style="margin-top: 5px; margin-bottom: 50px; text-align: right;">
-				<small>Данные фоормы будут выведены в «Результат», и записаны в локальное хранилище браузера.<br/>При повторном открытии адреса в «Результат» выводятся данные из хранилища.</small>
+		<form class="panel form" id="form">
+			<h2 class="form-name">Создание новой записи</h2>
+			<p class="form-intro">
+				<small>Данные фоормы будут выведены в «Результат», и записаны в локальное хранилище браузера.<br/>
+				При повторном открытии страницы, в «Результат» выводятся данные из хранилища.</small>
 			</p>
 			<div class="form-group">
 				<label for="city">Город</label>
 				<div>
-					<input type="text" class="autosuggest" id="city" required autocomplete="off">
+					<input type="text" class="autosuggest" id="city" name="city" required autocomplete="off">
 					<div class="suggest">
 						<ul>
 							<li>Лондон</li>
@@ -59,12 +59,20 @@
 			<div class="form-group">
 				<label for="phone">Телефон</label>
 				<div>
-					<input type="text" id="phone" required autocomplete="off" title="+7(999)999-99-99" placeholder="+7(999)999-99-99" pattern="[\+]7[\(]\d{3}[\)]\d{3}[\-]\d{2}[\-]\d{2}">
+					<input 
+					type="text" 
+					id="phone" 
+					name="phone" 
+					required 
+					autocomplete="off" 
+					title="+7(999)999-99-99" 
+					placeholder="+7(999)999-99-99" 
+					pattern="[\+]7[\(]\d{3}[\)]\d{3}[\-]\d{2}[\-]\d{2}">
 				</div>
 			</div>
 			<div class="align-right">
-				<button type="reset"><span>Очистить</span></button>
-				<button type="submit">Сохранить</button>
+				<button type="reset">Очистить</button>
+				<button type="submit" class="setColorPrimary" disabled>Сохранить</button>
 			</div>
 		</form>
 

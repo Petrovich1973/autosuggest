@@ -1,0 +1,15 @@
+{
+  "name": "autocomplete",
+  "version": "0.0.1",
+  "description": "Autocomplete plugin",
+  "scripts": {
+    "start": ""
+  },
+  "author": {
+    "name": "Igor Tanko"
+  },
+  "devDependencies": {
+    "express": "*",
+    "path": "*"
+  }
+}
