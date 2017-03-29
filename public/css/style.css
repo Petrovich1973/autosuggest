@@ -4,7 +4,7 @@ body {
 	font-size: 14px;
 	line-height: 1.6em;
 	color: #747474;
-	background-color: rgba(0, 0, 0, .012)
+	background-color: rgba(0, 0, 0, .02)
 }
 h1 {
 	text-transform: uppercase;
@@ -43,11 +43,11 @@ button:disabled {
 }
 
 .setColorPrimary {
-	background: rgba(66, 98, 168, 1);
+	background-color: rgba(63, 90, 150, 1);
 	color: #fff;
 }
 .textPrimary {
-	color: rgba(66, 98, 168, 1);
+	color: rgba(63, 90, 150, 1);
 }
 
 .container {
@@ -62,7 +62,9 @@ button:disabled {
 
 
 .form {
-	border-top: 3px solid rgba(66, 98, 168, .1);
+	border-top: 3px solid rgba(66, 98, 168, .1);    
+	transition: all 1s;	
+    transform: scale(1);
 }
 .form-name {
 	margin: 0; 
@@ -142,7 +144,7 @@ button:disabled {
 	padding: 3.6em;
 	margin: 3.6em 0;
 	/*background-color: rgba(0, 0, 0, .08)*/
-	background-color: rgba(255, 255, 255, .8)
+	background-color: rgba(255, 255, 255, .5);
 }
 .panel > *:first-child {
 	margin-top: -.5em;
@@ -152,21 +154,34 @@ button:disabled {
 }
 
 
-.res {
-	
+.result {    
+	transition: all 1s;	
+    transform: scale(1);
 }
-.res-title {
+.result-title {
 	margin: 0;
 	text-transform: uppercase;
 }
-.res-table {
+.result-table {
 	margin-left: 3.6em;
+	margin-bottom: 1em;
+	border-bottom: 1px dotted #ccc;
 }
-.res-table tr > td:first-child {
+.result-table td {
+	padding: 0;
+}
+.result-table tr > td:first-child {
 	padding-right: .5em;
 	text-align: right;
 }
 
+
+
+
+.form.action,
+.result.action {	
+    transform: scale(0);
+}
 
 
 

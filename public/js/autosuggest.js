@@ -6,27 +6,27 @@ autosuggest.onfocus = handleFocus;
 
 
 
-var urlRequest = 'http://kladr-api.ru/api.php?contentType=city&limit=10&query=мос';
+// var urlRequest = 'http://kladr-api.ru/api.php?contentType=city&limit=10&query=мос';
 //var urlRequest = 'http://tanko.ru/index.html';
 
-var XHR = ( "onload" in new XMLHttpRequest() ) ? XMLHttpRequest : XDomainRequest;
+// var XHR = ( "onload" in new XMLHttpRequest() ) ? XMLHttpRequest : XDomainRequest;
 
-var xhr = new XHR();
+// var xhr = new XHR();
 
-xhr.open('GET', urlRequest, true);
+// xhr.open('GET', urlRequest, true);
 
 //xhr.setRequestHeader('Access-Control-Allow-Origin', 'application/json');
 
-xhr.onload = function() {
-  console.log( this.responseText );
-}
+// xhr.onload = function() {
+//   console.log( this.responseText );
+// }
 
-xhr.onerror = function() {
-  console.log( 'readyState= ' + this.readyState );
-  console.log( 'status=' + this.status );
-}
+// xhr.onerror = function() {
+//   console.log( 'readyState= ' + this.readyState );
+//   console.log( 'status=' + this.status );
+// }
 
-xhr.send();
+// xhr.send();
 
 
 // autosuggest.onblur = function() {
@@ -66,7 +66,7 @@ var basketModule = (function() {
     return {
         addItem: function(values) {
             basket.push(values);
-            document.querySelector('.result').innerHTML = this.creatList();
+            document.querySelector('.temp').innerHTML = this.creatList();
         },
         getItemCount: function() {
             return basket.length;
@@ -145,10 +145,16 @@ autocomplete.init({
 
 //var form = document.querySelector("#form");
 $("#form").addEventListener("submit", function(e) {
+	var _self = this;
 	e.preventDefault();
-	console.log(this.elements.city.value, this.elements.phone.value);
-	$("#resultCity").innerText = this.elements.city.value;
-	$("#resultPhone").innerText = this.elements.phone.value;
+	console.log(_self.elements.city.value, _self.elements.phone.value);
+	_self.classList.add('action');
+	$("#res").classList.add('action');
+	setTimeout(function() {
+		$("#resultCity").innerText = _self.elements.city.value;
+		$("#resultPhone").innerText = _self.elements.phone.value;
+		$("#res").classList.remove('action');
+	}, 1000);
 	return false;
 });
 
