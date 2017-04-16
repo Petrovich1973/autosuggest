@@ -5,7 +5,24 @@
 	<title>Test</title>
 
 	<style>
-
+		input,
+		button {
+			outline: none;
+			padding: .5em 1em;
+			font-size: inherit;
+			font-family: inherit;
+			line-height: inherit;
+			box-sizing: border-box;
+			display: block;
+			border: 1px solid #717171;
+		}
+		button {
+			display: inline-block;
+		}
+		.field {
+			position: relative;
+			margin: .5em 0;
+		}
 	</style>
 
 </head>
@@ -30,7 +47,7 @@
 
 		<button type="reset">Reset</button>
 
-		<button type="button" onclick="Form.submit(this.form)" disabled="true">Send</button>
+		<button type="button" onclick="Form.submit(this.form)" disabled>Send</button>
 
 	</form>
 
@@ -40,13 +57,15 @@
 	<script>
 
 		window.onload = function() {
-			Result.init( document.querySelector('#result') );
+			Result.init( App.settings('elementResult') );
 			//Form.init();		
 		}
 
 		var App = (function() {
 			var defaults = {
-				localStoreKey: 'AppAutoSuggest'
+				elementResult: document.querySelector('#result'),
+				localStoreKey: 'AppAutoSuggest',
+				elementForm: document.querySelector('#form')
 			}
 			return {
 				settings(param) {
@@ -60,11 +79,11 @@
 		var Store = (function() {
 
 	    	return {
-	    		get(key, params) {
+	    		set(key, params) {
 	    			localStorage.setItem(key, JSON.stringify(params));
 	    			return true; 
 	    		},
-	    		set(key) {
+	    		get(key) {
 	    			if( localStorage.key ) {
 	    				return JSON.parse(localStorage.getItem(key));
 	    			} else {
@@ -86,16 +105,19 @@
 			return {
 			    init(selector) {
 		    		var query = selector || alert('Не указан селектор для Result');
-		    		var data = Store.set( 'dfd4543534' );
-		    		this.view( query, data );
-		    		console.log(data)
+		    		var data = Store.get( App.settings('localStoreKey') );
+		    		//var data = Store.get( 'notkey' );
+	    			this.view( query, data );
 		    		parent = selector;
 			    },
 			    update() {
-		    		var data = Store.set( App.settings('localStoreKey') );
+		    		var data = Store.get( App.settings('localStoreKey') );
 		    		this.view( parent, data );
 			    },
 			    view(selector, data) {
+			    	if(data == null) {
+			    		return selector.innerHTML = 'Результата нет';
+			    	}
 		    		var listWrap = document.createElement('dl');
 			    	Object.keys(data).map(function(m, i) {
 			    		var label = document.createElement('dt');
@@ -105,7 +127,7 @@
 			    		listWrap.appendChild(label);
 			    		listWrap.appendChild(value);
 			    	});
-			    	selector.innerHTML = '';
+			    	selector.innerHTML = 'Результат:';
 			    	selector.appendChild(listWrap);
 			    }
 			}
@@ -114,13 +136,14 @@
 
 		var Form = (function() {
 			var fields  = {};
-
 			return {
 			    init() {
 					//console.log(element.value)
 			    },
 			    change(element) {
-					//console.log(element.value)
+					//fields = Object.assign({}, fields, {[element.name]: element.value});
+					fields[element.name] = element.value;
+					this.validation(element.name);
 			    },
 			    submit(prop) {
 			    	var keys = Object.keys(fields);
@@ -142,6 +165,31 @@
 			    	} else {
 			    		console.log('not found');
 			    	}
+			    },
+			    validation(prop) {
+			    	//console.log(fields[prop]);
+			    	var elementForm = App.settings('elementForm');
+			    	switch(prop) {
+			    		case 'city':
+			    			elementForm.querySelector('[name=city]').style.border = '1px solid red';
+			    			break;
+		    			case 'phone':
+			    			elementForm.querySelector('[name=phone]').style.border = '1px solid green';
+			    			break;
+		    			default:
+		    				alert('Нет правила для поля с именем ' + prop);
+			    	}
+			    	var res = [];
+			    	Object.keys(fields).map(function(m) {
+			    		console.log(!fields[m].length)
+			    		if(fields[m].length) {
+			    			res.push(true);
+			    		} else {
+			    			res.push(false);
+			    		}
+			    	})
+			    	return elementForm.querySelector('[type=button]').disabled = true;
+			    	//return alert(33543);
 			    }
 			}
 		}());
@@ -149,13 +197,13 @@
 
 		var Module = (function() {
 
-				    let defaults = {
+				    var defaults = {
 				        color : 'red',
 				        width : 100,
 			        	height: 300,
 			        	border: '1px solid red'
 				    };
-				    let actual;
+				    var actual;
 
 				    return {
 				    	update(options = {}) {
