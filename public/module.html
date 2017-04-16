@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Module</title>
+
+	<style>
+		.message {
+			display: block;
+			position: fixed;
+			top: 0;
+			left: 50%;
+			box-sizing: border-box;
+			width: 200px;
+			margin-left: -100px;
+			padding: 20px;
+			text-align: center;
+			background-color: rgba(255, 255, 255, .8);
+			color: green;
+		    animation-name: example;
+		    animation-duration: 1.5s;
+		    animation-iteration-count: 1;
+		}
+		@keyframes example {
+		    0% {opacity: 1;}
+		    70% {opacity: 1;}
+		    100% {opacity: 0;}
+		}
+
+		.notification {
+			transition: all 1.2s;
+			opacity: 1;
+		}
+
+
+	</style>
+
+</head>
+<body>
+
+	<form onsubmit="return false">
+
+		<input 
+			type="text" 
+			name="city" 
+			minlength="2" 
+			maxlength="7" 
+			oninput="Form.change(this)">
+
+		<input 
+			type="text" 
+			name="phone" 
+			minlength="5" 
+			maxlength="10" 
+			oninput="Form.change(this)">
+
+		<button type="button" onclick="Form.submit(this.form)">validate</button>
+
+	</form>
+	
+
+	<div id="root">333</div>
+
+
+
+
+
+
+
+	<script>
+
+	if ( !Object.prototype.hasOwnProperty ) {
+		Object.prototype.hasOwnProperty = function(prop) {
+			var proto = obj.__proto__ || obj.constructor.prototype;
+			return (prop in this) && (!(prop in proto) || proto[prop] !== this[prop]);
+		};
+	}
+
+
+
+	var Form = (function() {
+		var fields  = {
+	  		city: '',
+	  		phone: ''
+	  	};
+		return {
+		    change(element) {
+				//console.log(element.value)
+		    },
+		    submit(prop) {
+		    	var keys = Object.keys(fields);
+		    	keys.map(function(m) {
+		    		return fields[m] = (prop[m].value);
+		    	});
+		    	localStorage.setItem('AutoSuggest', JSON.stringify(fields));
+		    	this.note()
+		    	return this.update();
+		    },
+		    note() {
+		    	//console.log('Запись сохранена'); 	
+		    	var wind = document.createElement('div');
+		    	wind.classList.add('message');
+		    	wind.innerHTML = 'Запись сохранена';
+		    	document.body.appendChild(wind);
+		    	setTimeout(function() { wind.parentNode.removeChild(wind) }, 490);
+		    },
+		    update() {
+		    	var fromStore = JSON.parse( localStorage.getItem('AutoSuggest') );
+		    	if(fromStore) {
+			    	var keys = Object.keys(fields);
+			    	keys.map(function(m) {
+			    		document.getElementsByName(m)[0].value = fromStore[m];
+			    		return fields[m] = (fromStore[m]);
+			    	});
+		    	} else {
+		    		console.log('not found');
+		    	}
+		    }
+		}
+	}());
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+	var Store = (function() {
+
+		var settings = {
+			storeKey: 'AutoSuggest'
+		}
+
+    	return {
+    		get(params) {
+    			localStorage.setItem(settings.storeKey, JSON.stringify(params));
+    			return true;
+    		},
+    		set() {
+    			return JSON.parse(localStorage.getItem(settings.storeKey));
+    		}
+    	}
+
+	}());	
+////////////////////////////////////////////////////////////////////////
+	var Notification = (function() {
+
+		var settings = {
+			style: {
+				position: 'absolute',
+				top: 0,
+				right: 0,
+				padding: '1em 2em',
+				maxWidth: '300px',
+				backgroundColor: 'rgba(120, 173, 134, .8)',
+				color: 'white'
+			},
+			time: 1200,
+			classContainer: 'notification',
+			classAnimate: 'animateHide'
+		}
+
+		function setStyles(element, styles) {
+		  	for (i in styles)
+		    	element.style[i] = styles[i];
+		    return element;
+		}
+
+    	return {
+    		note(message, prop) {
+    			
+    			if(prop)
+					for (var i in prop) {
+						if (prop.hasOwnProperty(i)) {
+						    settings[i] = prop[i];
+						}
+					}
+    			this.createElement(message)
+    		},
+    		createElement(message) {
+    			var container = document.createElement('div'),
+    				textElement = document.createTextNode(message);
+    			container.appendChild(textElement);
+    			container.classList.add(settings.classContainer);
+    			container = setStyles(
+    				container, 
+    				settings.style
+				);
+    			document.body.appendChild(container);
+    			this.timeOut(container);
+    		},
+    		timeOut(container) {
+    			container.classList.add(settings.classAnimate);
+    			setTimeout(function() {
+    				container.style.opacity = 0;
+    			}, settings.time);
+    		}
+    	}
+
+	}());
+////////////////////////////////////////////////////////////////////////
+
+	function Module(options = {}){
+	    let defaults = {
+	        color : 'red',
+	        width : 100,
+        	height: 300,
+        	border: '1px solid red'
+	    };
+	    let actual = Object.assign({}, defaults, options);
+	    console.info( actual );
+	}
+
+	var a = new Module();
+
+	var b = new Module( { color: 'blue', height: 1000000 } );
+
+	var a = new Module();
+
+
+
+	Form.update();
+
+
+
+
+
+
+
+	var ResultPublic = (function() {
+		return {
+		    change(element) {
+				console.log(element)
+		    },
+		    submit(prop) {
+
+
+
+
+				for (var i = Object.keys(prop) in prop) {
+					if (prop.hasOwnProperty(i)) {
+					    fields[i] = prop[i];
+					}
+				}				
+				console.log(resultForm)
+		    },
+		    init() {
+		    	
+		    }
+		}
+	}());
+
+
+
+
+
+	function showProps(prop) {
+
+		var options = {
+			name:'nameElement', 
+			d:77,
+			arr: {
+				a: 1,
+				b: 2
+			}
+		};
+
+		for (var i in prop) {
+			if (prop.hasOwnProperty(i)) {
+			    options[i] = prop[i];
+			}
+		}
+
+		return console.log( options );
+
+	}
+
+
+	function validate(element) {
+		//console.log({a:e})
+		showProps(element)
+	}
+	
+
+	</script>
+
+</body>
+</html>
