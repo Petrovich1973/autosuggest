@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test</title>
+
+	<style>
+
+	</style>
+
+</head>
+<body>
+	
+
+	<div id="result"></div>
+
+	<form id="form" onsubmit="return false">
+		<div class="field">
+			<input 
+				type="text" 
+				name="city"
+				oninput="Form.change(this)">
+		</div>
+		<div class="field">
+			<input 
+				type="text" 
+				name="phone"
+				oninput="Form.change(this)">
+		</div>
+
+		<button type="reset">Reset</button>
+
+		<button type="button" onclick="Form.submit(this.form)" disabled="true">Send</button>
+
+	</form>
+
+
+
+
+	<script>
+
+		window.onload = function() {
+			Result.init( document.querySelector('#result') );
+			//Form.init();		
+		}
+
+		var App = (function() {
+			var defaults = {
+				localStoreKey: 'AppAutoSuggest'
+			}
+			return {
+				settings(param) {
+					return defaults[param]
+				}
+			}
+		}());
+
+
+	////////////////////////////////////////////////////////////////////////
+		var Store = (function() {
+
+	    	return {
+	    		get(key, params) {
+	    			localStorage.setItem(key, JSON.stringify(params));
+	    			return true; 
+	    		},
+	    		set(key) {
+	    			if( localStorage.key ) {
+	    				return JSON.parse(localStorage.getItem(key));
+	    			} else {
+	    				return false;
+	    			}	    			
+	    		}
+	    	}
+
+		}());	
+	////////////////////////////////////////////////////////////////////////
+
+
+		var Result = (function() {
+			var names = {
+				city: 'Город',
+				phone: 'Телефон'
+			}
+			var parent;
+			return {
+			    init(selector) {
+		    		var query = selector || alert('Не указан селектор для Result');
+		    		var data = Store.set( 'dfd4543534' );
+		    		this.view( query, data );
+		    		console.log(data)
+		    		parent = selector;
+			    },
+			    update() {
+		    		var data = Store.set( App.settings('localStoreKey') );
+		    		this.view( parent, data );
+			    },
+			    view(selector, data) {
+		    		var listWrap = document.createElement('dl');
+			    	Object.keys(data).map(function(m, i) {
+			    		var label = document.createElement('dt');
+			    		var value = document.createElement('dd');
+			    		label.innerHTML = names[m] + ':';
+			    		value.innerHTML = data[m];
+			    		listWrap.appendChild(label);
+			    		listWrap.appendChild(value);
+			    	});
+			    	selector.innerHTML = '';
+			    	selector.appendChild(listWrap);
+			    }
+			}
+		}());
+
+
+		var Form = (function() {
+			var fields  = {};
+
+			return {
+			    init() {
+					//console.log(element.value)
+			    },
+			    change(element) {
+					//console.log(element.value)
+			    },
+			    submit(prop) {
+			    	var keys = Object.keys(fields);
+			    	keys.map(function(m) {
+			    		return fields[m] = (prop[m].value);
+			    	});
+			    	localStorage.setItem('AutoSuggest', JSON.stringify(fields));
+
+			    	return this.update();
+			    },
+			    update() {
+			    	var fromStore = JSON.parse( localStorage.getItem('AutoSuggest') );
+			    	if(fromStore) {
+				    	var keys = Object.keys(fields);
+				    	keys.map(function(m) {
+				    		document.getElementsByName(m)[0].value = fromStore[m];
+				    		return fields[m] = (fromStore[m]);
+				    	});
+			    	} else {
+			    		console.log('not found');
+			    	}
+			    }
+			}
+		}());
+	////////////////////////////////////////////////////////////////////////
+
+		var Module = (function() {
+
+				    let defaults = {
+				        color : 'red',
+				        width : 100,
+			        	height: 300,
+			        	border: '1px solid red'
+				    };
+				    let actual;
+
+				    return {
+				    	update(options = {}) {
+				    		actual = Object.assign({}, defaults, options);
+				    		this.view();
+				    	},
+				    	view() {
+				    		console.info( actual );
+				    	}
+				    }
+
+				}());
+
+		Module.update({ 
+			color: 'green'
+		});
+
+		Module.update({
+			color: 'blue',
+			height: 1000000
+		});
+
+		Module.update({
+			newProp: true
+		});
+
+
+
+
+
+
+
+
+
+
+	</script>
+
+</body>
+</html>
